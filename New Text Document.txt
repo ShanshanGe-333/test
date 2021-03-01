@@ -1,0 +1,373 @@
+Please add new security rules before rule 227 "inside-acl_59", the detail info is as below:
+1. Name: inside-acl-MerakiCloud;
+    Tags:inside-acl;
+    Source Zone: VLAN5; Source address:PDG_AccessPoint;
+
+    Destination Zone: Outside & mesh; Destination address: MerakiCloud_Controller
+   
+    Service: udp-7351; tcp-80; tcp-7734; tcp-7752
+
+2. Name: inside-acl-MerakiNTP;
+    Tags:inside-acl
+    Source Zone: VLAN5; Source address:PDG_AccessPoint;
+    Destination Zone: any; Destination address: any
+    Service:ntp-udp (PS:This object is already exist!)
+
+Please add 2 address groups:
+1. Name:PDG_AccessPoint; 
+Addresses: 172.31.5.0/24
+
+2. Name:MerakiCloud_Controller;
+Addresses:139.220.242.192/27; 103.204.73.160/27; 209.206.48.0/20
+
+
+Please help to add a new security policy before Rule 228 "inside-acl_59":
+The details are as below:
+Name: PwC-allowed-apps-inside
+Tags: inside-acl
+Source Zone: any 
+Source IP address: N-172.31.0.0/24 
+Destination Zone: Outside
+Destination address: any
+application: PwC-Allowed-Apps
+service: any
+action:allow
+profile setting:
+
+C:\Users\sge016>nslookup drive.google.com
+Server:  PDGW006200.mso.net
+Address:  172.31.6.200
+
+Non-authoritative answer:
+Name:    drive.google.com
+Addresses:  2607:f8b0:4002:c08::8a
+          2607:f8b0:4002:c08::66
+          2607:f8b0:4002:c08::65
+          2607:f8b0:4002:c08::8b
+          64.233.177.100
+          64.233.177.113
+          64.233.177.139
+          64.233.177.101
+          64.233.177.102
+          64.233.177.138
+
+
+PDG2-4510-6F#show run int gi2/14
+Building configuration...
+
+Current configuration : 119 bytes
+!
+interface GigabitEthernet2/14
+ description MerakiAP-test
+ switchport trunk native vlan 5
+ switchport mode trunk
+end
+
+
+FQDN:
+1. Airport_Booking_Web:	connect.citsgbt.com
+2. Macbook_Imageing: play.itunes.apple.com
+3. rm-j6c8tf57j109jvx86mo.mysql.rds.aliyuncs.com
+4. 
+
+
+2020.09.14 meraki ap test:
+
+PDG2-4510-6F#show run int gi9/31
+Building configuration...
+
+Current configuration : 539 bytes
+!
+interface GigabitEthernet9/31
+ description 61302-B
+ switchport mode access
+ switchport voice vlan 220
+ authentication event no-response action authorize vlan 45
+ authentication host-mode multi-domain
+ authentication port-control auto
+ authentication timer restart 30
+ authentication timer inactivity 120
+ authentication violation restrict
+ mab
+ qos trust device cisco-phone
+ macro description AccessEdgeQoS EgressQoS
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+end
+
+PDG2-4510-6F#show run int gi9/34
+Building configuration...
+
+Current configuration : 539 bytes
+!
+interface GigabitEthernet9/34
+ description 61302-A
+ switchport mode access
+ switchport voice vlan 220
+ authentication event no-response action authorize vlan 45
+ authentication host-mode multi-domain
+ authentication port-control auto
+ authentication timer restart 30
+ authentication timer inactivity 120
+ authentication violation restrict
+ mab
+ qos trust device cisco-phone
+ macro description AccessEdgeQoS EgressQoS
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+ service-policy input AUTOQOS-SRND4-CISCOPHONE-POLICY
+end
+
+PDG2-4510-6F#show run int gi2/14
+Building configuration...
+
+Current configuration : 119 bytes
+!
+interface GigabitEthernet2/14
+ description MerakiAP-test
+ switchport trunk native vlan 5
+ switchport mode trunk
+end
+
+3. 
+Te1/7/4                    pdge022024
+Te1/7/8                    pdge022024
+Te2/7/4                    pdge022024
+Te2/7/8                    pdge022024
+
+Te1/7/9                    pdge022025
+Te1/7/10                   pdge022025
+Te2/7/9                    pdge022025
+Te2/7/10                   pdge022025
+
+Te1/7/11                   pdge022026
+Te1/7/12                   pdge022026
+Te2/7/11                   pdge022026
+Te2/7/12                   pdge022026
+
+PDG2-4510-Core#show run int te1/7/4
+Building configuration...
+
+Current configuration : 93 bytes
+!
+interface TenGigabitEthernet1/7/4
+ description pdge022024-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te1/7/8
+Building configuration...
+
+Current configuration : 93 bytes
+!
+interface TenGigabitEthernet1/7/8
+ description pdge022024-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te1/7/9
+Building configuration...
+
+Current configuration : 93 bytes
+!
+interface TenGigabitEthernet1/7/9
+ description pdge022025-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te1/7/10
+Building configuration...
+
+Current configuration : 94 bytes
+!
+interface TenGigabitEthernet1/7/10
+ description pdge022025-data
+ switchport mode trunk
+end
+!
+interface TenGigabitEthernet1/7/11
+ description pdge022026-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te1/7/12
+Building configuration...
+
+Current configuration : 94 bytes
+!
+interface TenGigabitEthernet1/7/12
+ description pdge022026-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te2/7/4 
+Building configuration...
+
+Current configuration : 93 bytes
+!
+interface TenGigabitEthernet2/7/4
+ description pdge022024-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te2/7/8
+Building configuration...
+
+Current configuration : 93 bytes
+!
+interface TenGigabitEthernet2/7/8
+ description pdge022024-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te2/7/9
+Building configuration...
+
+Current configuration : 93 bytes
+!
+interface TenGigabitEthernet2/7/9
+ description pdge022025-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te2/7/10
+Building configuration...
+
+Current configuration : 94 bytes
+!
+interface TenGigabitEthernet2/7/10
+ description pdge022025-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te2/7/11
+Building configuration...
+
+Current configuration : 94 bytes
+!
+interface TenGigabitEthernet2/7/11
+ description pdge022026-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te2/7/11
+Building configuration...
+
+Current configuration : 94 bytes
+!
+interface TenGigabitEthernet2/7/11
+ description pdge022026-data
+ switchport mode trunk
+end
+
+PDG2-4510-Core#show run int te2/7/12
+Building configuration...
+
+Current configuration : 94 bytes
+!
+interface TenGigabitEthernet2/7/12
+ description pdge022026-data
+ switchport mode trunk
+end
+
+4. 
+snmp-server host 172.21.7.230 version 2c 5%omSg2401 
+snmp-server host 172.21.7.36 version 2c 5%omSg2401 
+snmp-server host 172.21.7.41 version 2c 5%omSg2401 
+snmp-server host 172.21.7.42 version 2c 5%omSg2401 
+snmp-server host 172.21.7.44 version 2c 5%omSg2401 
+snmp-server host 172.21.7.45 version 2c 5%omSg2401 
+snmp-server host 172.21.7.46 version 2c 5%omSg2401 
+snmp-server host 172.31.20.18 version 2c 5%omSg2401 
+snmp-server host 172.31.20.19 version 2c 5%omSg2401 
+
+
+snmp-server host 172.21.7.54 version 2c 5%omSg2401
+snmp-server host 172.21.7.55 version 2c 5%omSg2401
+snmp-server host 172.21.7.150 version 2c 5%omSg2401
+snmp-server host 172.21.7.165 version 2c 5%omSg2401
+snmp-server host 172.21.7.166 version 2c 5%omSg2401
+snmp-server host 172.21.7.167 version 2c 5%omSg2401
+snmp-server host 172.21.7.176 version 2c 5%omSg2401
+snmp-server host 172.21.7.177 version 2c 5%omSg2401
+
+PDG2-4510-Core	172.31.5.1       ok
+PDG2-4510-Core	172.31.5.3       ok
+PDG2-4510-3Fa.mso.net	172.31.2.10  ok
+PDG2-4510-3Fb.mso.net	172.31.2.11  ok
+PDG2-4510-5Fa.mso.net	172.31.2.12  ok
+PDG2-4510-5Fb.mso.net	172.31.2.13  ok
+PDG2-4510-6F.mso.net	172.31.2.14  ok
+PDG2-4510-7f.mso.net	172.31.2.15  ok
+PDG-3650-3F	172.31.2.21  ok
+PDG-3650-5F.mso.net	172.31.2.22  ok
+PDG2-3650-6f.mso.net	172.31.2.23  ok
+PDG2-3650-7f.mso.net	172.31.2.24  ok
+PDG-4510-A-7F-A	172.31.2.28    ok
+PDG-4510-A-7F-B	172.31.2.25    ok
+PDG-4510-A-11F-A	172.31.2.26   ok
+PDG-4510-A-11F-B	172.31.2.27   ok
+PDG2-3925-GRE-INT.mso.net	172.31.14.14  ok
+PDG2-3925-GRE-MPLS.mso.net	172.31.14.15  ok
+
+
+VPN:MSH-VPN20-GHC-35-STATIC-PROD-V01
+VPN Interface: MSH-VPN20-LAN-Prod
+
+C:\Users\sge016>tracert mail.google.com
+
+Tracing route to googlemail.l.google.com [172.217.3.101]
+over a maximum of 30 hops:
+
+  1     9 ms     9 ms   148 ms  172.31.204.1
+  2    <1 ms    <1 ms    <1 ms  172.31.5.4
+  3     2 ms    <1 ms    <1 ms  172.31.14.61
+  4   247 ms   244 ms   244 ms  10.0.255.58
+  5   212 ms   212 ms   212 ms  10.0.255.49
+  6   220 ms   216 ms   214 ms  10.0.132.1
+  7   293 ms   293 ms   292 ms  10.0.132.60
+  8   294 ms   294 ms     *     155.201.12.2
+  9   293 ms   293 ms   290 ms  10.0.255.214
+ 10   278 ms   218 ms   216 ms  12.251.46.37
+ 11   248 ms   253 ms   253 ms  cr1.attga.ip.att.net [12.122.141.146]
+ 12   247 ms   247 ms   247 ms  gar1.nsvtn.ip.att.net [12.122.96.85]
+ 13   251 ms   247 ms   247 ms  12.255.10.16
+ 14   248 ms   249 ms   248 ms  108.170.249.97
+ 15   215 ms   215 ms   216 ms  108.170.249.108
+ 16     *      217 ms     *     209.85.248.247
+ 17   235 ms     *      244 ms  216.239.40.131
+ 18     *        *        *     Request timed out.
+ 19     *      269 ms     *     142.250.57.145
+ 20   239 ms   242 ms   241 ms  209.85.255.37
+ 21   253 ms   245 ms   248 ms  108.170.248.33
+ 22   240 ms   240 ms   241 ms  209.85.244.65
+ 23   237 ms   239 ms   238 ms  lga34s18-in-f5.1e100.net [172.217.3.101]
+
+
+C:\Users\sge016>tracert www.google.com
+
+Tracing route to www.google.com [142.250.80.4]
+over a maximum of 30 hops:
+
+  1     1 ms     2 ms     4 ms  172.31.204.1
+  2    <1 ms    <1 ms    <1 ms  172.31.5.4
+  3    <1 ms    <1 ms    <1 ms  172.31.14.61
+  4   276 ms   276 ms   277 ms  172.21.14.60
+  5   203 ms   203 ms   203 ms  172.21.14.4
+  6   265 ms   265 ms   265 ms  str1001x-r1-edge-r22.mso.net [65.183.24.2]
+  7   204 ms   204 ms   205 ms  205.218.17.1
+  8   265 ms   267 ms   277 ms  hr2-v3006.dc2.savvis.net [205.138.145.53]
+  9     *        *        *     Request timed out.
+ 10   267 ms   266 ms   269 ms  dca-edge-24.inet.qwest.net [208.168.135.89]
+ 11   269 ms   268 ms   270 ms  dcx4-edge-01.inet.qwest.net [208.168.153.10]
+ 12   282 ms   281 ms   280 ms  72.14.216.14
+ 13   267 ms   267 ms   268 ms  108.170.246.2
+ 14   282 ms   282 ms   302 ms  216.239.50.93
+ 15   276 ms   274 ms   275 ms  216.239.54.203
+ 16   274 ms   274 ms   274 ms  216.239.62.197
+ 17   274 ms   274 ms   274 ms  108.170.248.33
+ 18   278 ms   275 ms   275 ms  142.250.235.237
+ 19   273 ms   273 ms   273 ms  lga34s33-in-f4.1e100.net [142.250.80.4]
+
+Trace complete.
